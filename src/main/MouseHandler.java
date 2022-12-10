@@ -1,12 +1,10 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.security.Identity;
 
-import object.Ball;
+import Entity.Ball;
 
 public class MouseHandler implements MouseListener{
 

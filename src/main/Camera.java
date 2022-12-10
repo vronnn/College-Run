@@ -1,19 +1,21 @@
 package main;
 
-import object.Ball;
+import Entity.Ball;
 
 public class Camera {
 
 	double x,y;
 	GamePanel gp;
+	Ball ball;
 	
-	public Camera(double x, double y, GamePanel gp) {
+	public Camera(double x, double y, GamePanel gp, Ball ball) {
 		this.x = x;
 		this.y = y;
 		this.gp = gp;
+		this.ball = ball;
 	}
 	
-	public void update(Ball ball) {
+	public void update() {
 		x -= ball.initSpeedX;
 		//System.out.println(x + " " + y);
 	}

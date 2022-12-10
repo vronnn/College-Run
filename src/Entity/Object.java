@@ -1,11 +1,11 @@
-package object;
+package Entity;
 
 import java.awt.image.BufferedImage;
 
 public class Object {
 
 	public double x, y;
-	public BufferedImage ball1, ball2, ball3, ball4;
+	public BufferedImage img1, img2, img3, img4;
 	public String fase;
 	
 	public int spriteCounter = 0;

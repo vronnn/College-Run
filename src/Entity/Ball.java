@@ -1,6 +1,5 @@
-package object;
+package Entity;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -8,61 +7,53 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.GamePanel;
-import main.KeyHandler;
 
 public class Ball extends Object{
 
 	GamePanel gp;
-	KeyHandler keyH;
 	
 	public final int screenX;
 	public final int screenY;
+	public double lastX, lastY;
 	public double initSpeedX, initSpeedY;
-	private int radius;
-	private Color color;
 	public double gravity = 5;
 	public int startDegree = 45;
-	public int speed = 6;
+	public int speed = 7;
 	public double speedGrav;
 	public int counterLimit = 3;
 	
 	
-	public Ball(GamePanel gp, KeyHandler keyH) {
+	public Ball(GamePanel gp) {
 		
 		this.gp = gp;
-		this.keyH = keyH;
 		
 		screenX = 3 * gp.tileSize;
 		screenY = gp.screenHeight - 2* gp.tileSize;
 		
 		
-		this.initSpeedX = (float)((speed * Math.cos(Math.toRadians(startDegree)))*3/4);
-		this.initSpeedY = (float)(-speed * (float)Math.sin(Math.toRadians(startDegree))) + ((float)(-speed * (float)Math.sin(Math.toRadians(startDegree)))/2);		
+		this.initSpeedX = (float)((speed * Math.cos(Math.toRadians(startDegree)))*5/6);
+		this.initSpeedY = (float)(-speed * (float)Math.sin(Math.toRadians(startDegree))) + ((float)(-speed * (float)Math.sin(Math.toRadians(startDegree)))/3);		
 		
 		setDefaultValues();
 		getPlayerImage();
-		
 		
 	}
 	
 	public void setDefaultValues() {
 		
 		this.x = 3 * gp.tileSize;
-		this.y = gp.screenHeight - gp.tileSize;
-		//this.y = gp.worldHeight - (gp.worldHeight/4);
-		
-		this.radius = gp.tileSize - 16;
-		fase = "diam";
+		this.y = gp.screenHeight - 2* gp.tileSize;
+		fase = "move";
 	}
 	
 	public void getPlayerImage(){
 		
 		try {
 			
-			ball1 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody1.png"));			
-			ball2 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody2.png"));			
-			ball3 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody3.png"));			
-			ball4 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody4.png"));			
+			img1 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody1.png"));			
+			img2 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody2.png"));			
+			img3 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody3.png"));			
+			img4 = ImageIO.read(getClass().getResourceAsStream("/ball/headbody4.png"));			
 
 			
 		}catch(IOException e) {
@@ -70,9 +61,9 @@ public class Ball extends Object{
 		}
 	}
 	
-	public void update(GamePanel gp) {
+	public void update() {
 		
-		fase = "diam";
+		fase = "move";
 		spriteCounter++;
 		if(spriteCounter > counterLimit) {
 			if(spriteNum == 1) {
@@ -91,14 +82,11 @@ public class Ball extends Object{
 		}
 		
 		
-		int limitY = gp.screenHeight - gp.tileSize;
+		int limitY = gp.screenHeight - 2*gp.tileSize;
 		
 		x += initSpeedX;
 		speedGrav = (gravity*((double)(gp.timeElapsed*gp.timeElapsed)/1000000)*0.5);
 		y += initSpeedY + speedGrav;
-		
-//		System.out.println(initSpeedX + " " + initSpeedY);
-//		lastSpeedY = initSpeedY - (gravity * ((double)(gp.timeElapsed/1000)));
 		
 		if(y > limitY) {
 			y = limitY;
@@ -115,24 +103,24 @@ public class Ball extends Object{
 		BufferedImage image = null;
 		
 		switch(fase){
-		case "diam":
+		case "move":
 			if(spriteNum == 1) {
-				image = ball1;
+				image = img1;
 			}
 			if(spriteNum == 2) {
-				image = ball2;
+				image = img2;
 			}
 			if(spriteNum == 3) {
-				image = ball3;
+				image = img3;
 			}
 			if(spriteNum == 4) {
-				image = ball4;
+				image = img4;
 			}
 			break;
 		
 		}
 		
-		g2.drawImage(image, (int) (x),(int) (y - gp.tileSize), gp.tileSize, gp.tileSize, null);
+		g2.drawImage(image, (int) (x),(int) (y), gp.tileSize, gp.tileSize, null);
 		
 	}
 	

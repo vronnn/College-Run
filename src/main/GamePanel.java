@@ -1,15 +1,13 @@
 package main;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.plaf.basic.BasicMenuBarUI;
-
-import object.Ball;
+import Entity.Ball;
+import object.Book;
+import object.SuperObject;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable{
@@ -37,19 +35,25 @@ public class GamePanel extends JPanel implements Runnable{
 	public boolean start = false;
 	
 	public Camera cam;
-	KeyHandler keyH = new KeyHandler();
 	TileManager tileM = new TileManager(this);
 	Thread gameThread;
-	public Ball ball = new Ball(this, keyH);
+	public AssetSetter aSetter = new AssetSetter(this);
+	public Ball ball = new Ball(this);
+	KeyHandler keyH = new KeyHandler(this);
 	MouseHandler mouseH = new MouseHandler(ball, this);
+	public SuperObject obj[] = new SuperObject[10];
 	
 	public GamePanel() {
-		cam = new Camera(0, 0, this);
+		cam = new Camera(0, 0, this, ball);
 		this.setPreferredSize(new Dimension(screenWidth, screenHeight));
 		this.setDoubleBuffered(true);
 		this.addKeyListener(keyH);
 		this.setFocusable(true);;
 		this.addMouseListener(mouseH);
+	}
+	
+	public void setupGame() {
+		aSetter.setObject();
 	}
 	
 	public void startGameThread() {
@@ -107,11 +111,15 @@ public class GamePanel extends JPanel implements Runnable{
 		
 		if(start) {
 			this.timeElapsed = System.currentTimeMillis() - this.startTime;
-			ball.update(this);
-			cam.update(ball);
+			ball.update();
+			cam.update();
+			for(int i = 0; i < obj.length; i++) {
+				if(obj[i] != null) {
+					obj[i].update();
+				}
+			}
 		}
 		else {
-			
 		}
 	}
 	
@@ -124,7 +132,11 @@ public class GamePanel extends JPanel implements Runnable{
 		g2.translate(cam.getX(), cam.getY());
 		
 		tileM.draw(g2);
-		
+		for(int i = 0; i < obj.length; i++) {
+			if(obj[i] != null) {
+				obj[i].draw(g2, this);
+			}
+		}
 		ball.draw(g2);
 		
 		g2.translate(-cam.getX(), -cam.getY());
