@@ -6,11 +6,12 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import main.Game;
 import main.GamePanel;
 
 public class Ball extends Object{
 
-	GamePanel gp;
+	Game game;
 	
 	public final int screenX;
 	public final int screenY;
@@ -23,16 +24,16 @@ public class Ball extends Object{
 	public int counterLimit = 3;
 	
 	
-	public Ball(GamePanel gp) {
+	public Ball(Game game) {
 		
-		this.gp = gp;
+		this.game = game;
 		
-		screenX = 3 * gp.tileSize;
-		screenY = gp.screenHeight - 2* gp.tileSize;
+		screenX = 3 * game.tileSize;
+		screenY = game.GAME_HEIGHT - 2* game.tileSize;
 		
 		
-		this.initSpeedX = (float)((speed * Math.cos(Math.toRadians(startDegree)))*5/6);
-		this.initSpeedY = (float)(-speed * (float)Math.sin(Math.toRadians(startDegree))) + ((float)(-speed * (float)Math.sin(Math.toRadians(startDegree)))/3);		
+//		this.initSpeedX = (float)((speed * Math.cos(Math.toRadians(startDegree)))*5/6);
+//		this.initSpeedY = (float)(-speed * (float)Math.sin(Math.toRadians(startDegree))) + ((float)(-speed * (float)Math.sin(Math.toRadians(startDegree)))/3);		
 		
 		setDefaultValues();
 		getPlayerImage();
@@ -41,8 +42,8 @@ public class Ball extends Object{
 	
 	public void setDefaultValues() {
 		
-		this.x = 3 * gp.tileSize;
-		this.y = gp.screenHeight - 2* gp.tileSize;
+		this.x = 3 * game.tileSize;
+		this.y = game.GAME_HEIGHT - 2* game.tileSize;
 		fase = "move";
 	}
 	
@@ -82,16 +83,16 @@ public class Ball extends Object{
 		}
 		
 		
-		int limitY = gp.screenHeight - 2*gp.tileSize;
+		int limitY = game.GAME_HEIGHT - 2*game.tileSize;
 		
 		x += initSpeedX;
-		speedGrav = (gravity*((double)(gp.timeElapsed*gp.timeElapsed)/1000000)*0.5);
+		speedGrav = (gravity*((double)(game.timeElapsed*game.timeElapsed)/1000000)*0.5);
 		y += initSpeedY + speedGrav;
 		
 		if(y > limitY) {
 			y = limitY;
-			gp.startTime += gp.timeElapsed;
-			gp.timeElapsed = 1000;
+			game.startTime += game.timeElapsed;
+			game.timeElapsed = 1000;
 			initSpeedY = initSpeedY * 8 / 10;
 			initSpeedX = initSpeedX * 8 / 10;
 			counterLimit++;
@@ -120,7 +121,7 @@ public class Ball extends Object{
 		
 		}
 		
-		g2.drawImage(image, (int) (x),(int) (y), gp.tileSize, gp.tileSize, null);
+		g2.drawImage(image, (int) (x),(int) (y), game.tileSize, game.tileSize, null);
 		
 	}
 	

@@ -3,6 +3,7 @@ package object;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import main.Game;
 import main.GamePanel;
 
 public class SuperObject {
@@ -31,12 +32,12 @@ public class SuperObject {
 	}
 	
 	
-	public void draw(Graphics2D g2, GamePanel gp) {
-		int screenX = (int) (worldX - gp.ball.x + gp.ball.screenX);
+	public void draw(Graphics2D g2, Game game) {
+		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
 		int screenY = worldY;
 		
-		if(worldX + gp.tileSize >= gp.ball.x - gp.ball.screenX &&
-				worldX - gp.tileSize < 2*gp.ball.x + (21*gp.tileSize)) {
+		if(worldX + game.tileSize >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
+				worldX - game.tileSize < 2*game.getPlaying().ball.x + (21*game.tileSize)) {
 			if(spriteNum == 1) {
 				image = img1;
 			}
@@ -47,7 +48,7 @@ public class SuperObject {
 				image = img3;
 			}
 			
-			g2.drawImage(image, screenX, screenY, 3*gp.tileSize, 3*gp.tileSize, null);
+			g2.drawImage(image, screenX, screenY, 3*game.tileSize, 3*game.tileSize, null);
 		}
 	}
 }

@@ -5,13 +5,13 @@ import Entity.Ball;
 public class Camera {
 
 	double x,y;
-	GamePanel gp;
+	Game game;
 	Ball ball;
 	
-	public Camera(double x, double y, GamePanel gp, Ball ball) {
+	public Camera(double x, double y, Game game, Ball ball) {
 		this.x = x;
 		this.y = y;
-		this.gp = gp;
+		this.game = game;
 		this.ball = ball;
 	}
 	
