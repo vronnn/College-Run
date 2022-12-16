@@ -1,29 +1,33 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 import gamestates.Gamestate;
 import gamestates.Menu;
 import gamestates.Playing;
-import object.SuperObject;
+import ui.Fonts;
 
 public class Game implements Runnable {
 
 	private GameWindow gameWindow;
 	private GamePanel gamePanel;
 	private Thread gameThread;
-	private final int FPS_SET = 120;
-	private final int UPS_SET = 120;
+	private final int FPS_SET = 60;
+	private final int UPS_SET = 60;
 
 	public Playing playing;
 	public Menu menu;
 
-	public final int defaultTileSize = 16;
-	public final int SCALE = 3;
-	public final int TILES_IN_WIDTH = 24;
-	public final int TILES_IN_HEIGHT = 12;
-	public final int tileSize = defaultTileSize * SCALE;
-	public final int GAME_WIDTH = tileSize * TILES_IN_WIDTH;
-	public final int GAME_HEIGHT = tileSize * TILES_IN_HEIGHT;
+	public int defaultTileSize = 16;
+	public int SCALE = 3;
+	public int TILES_IN_WIDTH = 24;
+	public int TILES_IN_HEIGHT = 12;
+	public int tileSize = defaultTileSize * SCALE;
+	public int GAME_WIDTH = tileSize * TILES_IN_WIDTH;
+	public int GAME_HEIGHT = tileSize * TILES_IN_HEIGHT;
 	
 	public final int maxWorldCol = 200;
 	public final int maxWorldRow = 12;
@@ -76,9 +80,12 @@ public class Game implements Runnable {
 		case MENU:
 			menu.draw(g);
 			break;
-		case PLAYING:
+		case PLAYING:{
 			playing.draw(g);
+			drawScore(g);
+			playing.powerUp.draw(g);
 			break;
+		}
 		default:
 			break;
 		}
@@ -127,6 +134,13 @@ public class Game implements Runnable {
 			}
 		}
 
+	}
+	
+	public void drawScore(Graphics g) {
+		Graphics2D g2 = (Graphics2D)g;
+		g2.setColor(Color.white);
+		g2.setFont(Fonts.nonpixel.deriveFont(Font.BOLD, 20F));
+		g2.drawString("SCORE =  " + (int) (playing.ball.x / 96 - 1), GAME_WIDTH - 160, 40);
 	}
 
 	public void windowFocusLost() {

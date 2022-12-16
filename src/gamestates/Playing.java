@@ -12,20 +12,27 @@ import main.Camera;
 import main.Game;
 import object.SuperObject;
 import tile.TileManager;
+import ui.Fonts;
+import ui.GameOverOverlay;
 import ui.LaunchButton;
 import ui.PowerBar;
+import ui.PowerUp;
 
 public class Playing extends State implements Statemethods{
 
 	public Camera cam;
 	public Ball ball;
 	TileManager tileM;
+	public GameOverOverlay gameOverOverlay;
 	public AssetSetter aSetter = new AssetSetter(game);
 	public SuperObject[] obj = new SuperObject[10];
 	public LaunchButton launchButton;
 	public PowerBar powerBar;
+	public PowerUp powerUp;
+	public Fonts fonts;
 	public long timePressed;
 	public int playState = 0;
+	public boolean gameOver = false;
 	
 	public Playing(Game game) {
 		super(game);
@@ -39,7 +46,9 @@ public class Playing extends State implements Statemethods{
 		cam = new Camera(0, 0, game, ball);
 		launchButton = new LaunchButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.LAUNCH);
 		powerBar = new PowerBar(game.GAME_WIDTH / 2, (int) (100), 0);
-
+		fonts = new Fonts(game);
+		powerUp = new PowerUp((int)(ball.x - ball.screenX + 20), 20);
+		gameOverOverlay = new GameOverOverlay(game);
 	}
 
 	@Override
@@ -47,7 +56,6 @@ public class Playing extends State implements Statemethods{
 		
 		if(playState == 0) {
 			launchButton.update();
-			System.out.println(launchButton.isMousePressed());
 			if(launchButton.mousePressed) {
 				powerBar.update();
 			}
@@ -67,7 +75,6 @@ public class Playing extends State implements Statemethods{
 	@Override
 	public void draw(Graphics g) {
 		Graphics2D g2 = (Graphics2D)g;
-		
 		if(playState == 0) {
 			tileM.draw(g2);
 			launchButton.draw(g);
@@ -78,6 +85,18 @@ public class Playing extends State implements Statemethods{
 				}
 			}
 			ball.draw(g2);
+		}
+		else if(gameOver) {
+			g2.translate(cam.getX(), cam.getY());
+			tileM.draw(g2);
+			for(int i = 0; i < obj.length; i++) {
+				if(obj[i] != null) {
+					obj[i].draw(g2, game);
+				}
+			}
+			ball.draw(g2);
+			g2.translate(-cam.getX(), -cam.getY());
+			gameOverOverlay.draw(g);
 		}
 		else {
 			g2.translate(cam.getX(), cam.getY());
@@ -91,6 +110,7 @@ public class Playing extends State implements Statemethods{
 			g2.translate(-cam.getX(), -cam.getY());
 		}
 	}
+	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -112,7 +132,7 @@ public class Playing extends State implements Statemethods{
 			if (launchButton.isMousePressed()) {
 				playState = 1;
 				ball.initSpeedX = (float)((powerBar.index * Math.cos(Math.toRadians(45)))*5/6);
-				ball.initSpeedY = (float)(-powerBar.index * (float)Math.sin(Math.toRadians(45)));
+				ball.initSpeedY = (float)(-powerBar.index * (float)Math.sin(Math.toRadians(60)));
 			}
 		}
 		powerBar.index = 0;
@@ -133,28 +153,35 @@ public class Playing extends State implements Statemethods{
 			launchButton.setMouseOver(true);
 		}
 	}
+	
+	public void resetAll() {
+		// TODO: reset ball, map, etc
+		gameOver = false;
+		playState = 0;
+		ball.resetAll();
+		
+	}
+	
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+		
+	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		switch (e.getKeyCode()) {		
+		if(gameOver) {
+			gameOverOverlay.keyPressed(e);
+		}
+		else {
+			switch (e.getKeyCode()) {		
 			case KeyEvent.VK_SPACE: {
-				if(ball.index > 0) {
-					ball.lastX = ball.x;
-					ball.lastY = ball.y;
-					ball.initSpeedX = 0;
-					ball.initSpeedY = 0;
+				if(playState == 1 && powerUp.index != 0) {
 					game.startTime += game.timeElapsed;
 					game.timeElapsed = 1000;
-					ball.index--;
-				}
-				else {
-					ball.index = 0;
+					powerUp.update();
 				}
 				break;
 			}
-			case KeyEvent.VK_BACK_SPACE: {
-				Gamestate.state = Gamestate.MENU;
-				break;
 			}
 		}
 		
@@ -162,14 +189,13 @@ public class Playing extends State implements Statemethods{
 
 	@Override
 	public void keyReleased(KeyEvent e) {
+		if(!gameOver) {
 		switch (e.getKeyCode()) {		
 			case KeyEvent.VK_SPACE: {
-				ball.x = ball.lastX;
-				ball.y = ball.lastY;
-				ball.initSpeedX = (float)((ball.speed * Math.cos(Math.toRadians(ball.startDegree)))*2/3);
-				ball.initSpeedY = (float)(-ball.speed * (float)Math.sin(Math.toRadians(ball.startDegree))) * 7/8;
+
 				break;
 			}
+		}
 		}
 	}
 }

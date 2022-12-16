@@ -17,31 +17,19 @@ public class Ball extends Object{
 	public final int screenY;
 	public double lastX, lastY;
 	public double initSpeedX, initSpeedY;
+	public double lastSpeedX, lastSpeedY;
 	public double gravity = 5;
 	public int startDegree = 45;
 	public int speed = 7;
 	public double speedGrav;
 	public int counterLimit = 3;
 	
-	private BufferedImage[] imgs;
-	public int index = 2;
-	public int PU_WIDTH_DEFAULT = 58;
-	public int PU_HEIGHT_DEFAULT = 25;
-	public int PU_WIDTH = PU_WIDTH_DEFAULT * 2;
-	public int PU_HEIGHT = PU_HEIGHT_DEFAULT * 2;
-	public int PU_X = (int) x + 20;
-	public int PU_Y = 20;
-	
 	public Ball(Game game) {
 		
 		this.game = game;
 		
 		screenX = 3 * game.tileSize;
-		screenY = game.GAME_HEIGHT - 2* game.tileSize;
-		
-		
-//		this.initSpeedX = (float)((speed * Math.cos(Math.toRadians(startDegree)))*5/6);
-//		this.initSpeedY = (float)(-speed * (float)Math.sin(Math.toRadians(startDegree))) + ((float)(-speed * (float)Math.sin(Math.toRadians(startDegree)))/3);		
+		screenY = game.GAME_HEIGHT - 2* game.tileSize;	
 		
 		setDefaultValues();
 		getPlayerImage();
@@ -69,16 +57,16 @@ public class Ball extends Object{
 			e.printStackTrace();
 		}
 		
-		imgs = new BufferedImage[3];
-		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.POWER_UP);
-		for(int i = 0; i < imgs.length; i++) {
-			imgs[i] = temp.getSubimage(i * PU_WIDTH_DEFAULT, 0, PU_WIDTH_DEFAULT, PU_HEIGHT_DEFAULT);
-			
-		}
 	}
 	
 	public void update() {
 		
+		System.out.println(initSpeedX);
+		
+		if(initSpeedX <= 0.001 && initSpeedX >= 0.00005 && game.getPlaying().gameOver == false && game.getPlaying().playState == 1) {
+			game.getPlaying().setGameOver(true);
+			return;
+		}
 		fase = "move";
 		spriteCounter++;
 		if(spriteCounter > counterLimit) {
@@ -103,6 +91,7 @@ public class Ball extends Object{
 		x += initSpeedX;
 		speedGrav = (gravity*((double)(game.timeElapsed*game.timeElapsed)/1000000)*0.5);
 		y += initSpeedY + speedGrav;
+	
 		
 		if(y > limitY) {
 			y = limitY;
@@ -113,7 +102,6 @@ public class Ball extends Object{
 			counterLimit++;
 		}
 		
-		PU_X = (int)(x-screenX) + 20;
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -139,7 +127,13 @@ public class Ball extends Object{
 		}
 		
 		g2.drawImage(image, (int) (x),(int) (y), game.tileSize, game.tileSize, null);
-		g2.drawImage(imgs[index], PU_X, PU_Y, PU_WIDTH, PU_HEIGHT, null);
+	}
+
+	public void resetAll() {
+		spriteNum = 1;
+		counterLimit = 3;
+		x = 3 * game.tileSize;
+		y = game.GAME_HEIGHT - 2* game.tileSize;
 	}
 	
 }

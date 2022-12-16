@@ -5,8 +5,6 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
-import javax.naming.directory.DirContext;
-
 import utilz.LoadSave;
 
 import static utilz.Constants.UI.PowerBar.*;
@@ -42,7 +40,7 @@ public class PowerBar {
 	
 	public void update() {
 		spriteCounter++;
-		if(spriteCounter > 15) {
+		if(spriteCounter > 3) {
 			if(up) {
 				if(index == 0)
 					index = 1;
