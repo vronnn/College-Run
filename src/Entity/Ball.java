@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import main.Game;
-import main.GamePanel;
+import utilz.LoadSave;
 
 public class Ball extends Object{
 
@@ -23,6 +23,14 @@ public class Ball extends Object{
 	public double speedGrav;
 	public int counterLimit = 3;
 	
+	private BufferedImage[] imgs;
+	public int index = 2;
+	public int PU_WIDTH_DEFAULT = 58;
+	public int PU_HEIGHT_DEFAULT = 25;
+	public int PU_WIDTH = PU_WIDTH_DEFAULT * 2;
+	public int PU_HEIGHT = PU_HEIGHT_DEFAULT * 2;
+	public int PU_X = (int) x + 20;
+	public int PU_Y = 20;
 	
 	public Ball(Game game) {
 		
@@ -59,6 +67,13 @@ public class Ball extends Object{
 			
 		}catch(IOException e) {
 			e.printStackTrace();
+		}
+		
+		imgs = new BufferedImage[3];
+		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.POWER_UP);
+		for(int i = 0; i < imgs.length; i++) {
+			imgs[i] = temp.getSubimage(i * PU_WIDTH_DEFAULT, 0, PU_WIDTH_DEFAULT, PU_HEIGHT_DEFAULT);
+			
 		}
 	}
 	
@@ -97,6 +112,8 @@ public class Ball extends Object{
 			initSpeedX = initSpeedX * 8 / 10;
 			counterLimit++;
 		}
+		
+		PU_X = (int)(x-screenX) + 20;
 	}
 	
 	public void draw(Graphics2D g2) {
@@ -122,7 +139,7 @@ public class Ball extends Object{
 		}
 		
 		g2.drawImage(image, (int) (x),(int) (y), game.tileSize, game.tileSize, null);
-		
+		g2.drawImage(imgs[index], PU_X, PU_Y, PU_WIDTH, PU_HEIGHT, null);
 	}
 	
 }

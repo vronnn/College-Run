@@ -1,14 +1,10 @@
 package object;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.security.auth.x500.X500Principal;
 
-import main.Camera;
-import main.GamePanel;
+import main.Game;
 
 public class Book extends SuperObject{
 	
@@ -24,5 +20,10 @@ public class Book extends SuperObject{
 		}catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void power(Game game){
+		game.getPlaying().ball.initSpeedX = (float)(((game.getPlaying().ball.speed + 2) * Math.cos(Math.toRadians(45))));
+		game.getPlaying().ball.initSpeedY = (float)(-(game.getPlaying().ball.speed + 2) * (float)Math.sin(Math.toRadians(45)));
 	}
 }

@@ -21,5 +21,12 @@ public class Constants {
 			public static final int PB_WIDTH = PB_WIDTH_DEFAULT * 4;
 			public static final int PB_HEIGHT = PB_HEIGHT_DEFAULT * 4;
 		}
+		public static class PowerUps{
+			public static final int PU_WIDTH_DEFAULT = 58;
+			public static final int PU_HEIGHT_DEFAULT = 25;
+			public static final int PU_WIDTH = PU_WIDTH_DEFAULT * 2;
+			public static final int PU_HEIGHT = PU_HEIGHT_DEFAULT * 2;
+		}
+		
 	}
 }

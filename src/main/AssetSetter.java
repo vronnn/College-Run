@@ -2,7 +2,7 @@ package main;
 
 import java.util.Random;
 
-import object.Book;
+import object.*;
 
 public class AssetSetter {
 
@@ -14,10 +14,24 @@ public class AssetSetter {
 	
 	public void setObject() {
 		
+		for(int n = 1; n < 3; n++) {
+			objectShape(n);
+			game.playing.obj[n].worldX = n * 50 * game.tileSize;
+			game.playing.obj[n].worldY = 8 * game.tileSize + (game.tileSize/4);
+		}
+	}
+	
+	public void objectShape(int n) {
 		Random rand = new Random();
-		
-		game.playing.obj[0] = new Book();
-		game.playing.obj[0].worldX = (rand.nextInt(180 - 5) + 5) * game.tileSize;
-		game.playing.obj[0].worldY = 8 * game.tileSize + (game.tileSize/4);
+		int m = rand.nextInt(4);
+		if(m == 0) {
+			game.playing.obj[n] = new Book();
+		}else if(m == 1) {
+			game.playing.obj[n] = new Lecturer();
+		}else if(m == 2) {
+			game.playing.obj[n] = new Wall();
+		}else if(m == 3) {
+			game.playing.obj[n] = new Bus();
+		}
 	}
 }

@@ -10,12 +10,9 @@ import Entity.Ball;
 import main.AssetSetter;
 import main.Camera;
 import main.Game;
-import main.GamePanel;
-import main.GameWindow;
 import object.SuperObject;
 import tile.TileManager;
 import ui.LaunchButton;
-import ui.MenuButton;
 import ui.PowerBar;
 
 public class Playing extends State implements Statemethods{
@@ -42,6 +39,7 @@ public class Playing extends State implements Statemethods{
 		cam = new Camera(0, 0, game, ball);
 		launchButton = new LaunchButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.LAUNCH);
 		powerBar = new PowerBar(game.GAME_WIDTH / 2, (int) (100), 0);
+
 	}
 
 	@Override
@@ -117,6 +115,7 @@ public class Playing extends State implements Statemethods{
 				ball.initSpeedY = (float)(-powerBar.index * (float)Math.sin(Math.toRadians(45)));
 			}
 		}
+		powerBar.index = 0;
 		resetButtons();
 	}
 	
@@ -139,12 +138,18 @@ public class Playing extends State implements Statemethods{
 	public void keyPressed(KeyEvent e) {
 		switch (e.getKeyCode()) {		
 			case KeyEvent.VK_SPACE: {
-				ball.lastX = ball.x;
-				ball.lastY = ball.y;
-				ball.initSpeedX = 0;
-				ball.initSpeedY = 0;
-				game.startTime += game.timeElapsed;
-				game.timeElapsed = 1000;
+				if(ball.index > 0) {
+					ball.lastX = ball.x;
+					ball.lastY = ball.y;
+					ball.initSpeedX = 0;
+					ball.initSpeedY = 0;
+					game.startTime += game.timeElapsed;
+					game.timeElapsed = 1000;
+					ball.index--;
+				}
+				else {
+					ball.index = 0;
+				}
 				break;
 			}
 			case KeyEvent.VK_BACK_SPACE: {

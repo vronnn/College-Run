@@ -12,6 +12,7 @@ public class LoadSave {
 	public static final String QUIT_BUTTONS = "quit_button.png";
 	public static final String LAUNCH_BUTTONS = "launch_button.png";
 	public static final String POWER_BAR = "power_bar.png";
+	public static final String POWER_UP = "power_up.png";
 	public static final String MENU_BACKGROUND = "screen_menu1.png";
 	public static final String BACKGROUND = "background_img.png";
 	
