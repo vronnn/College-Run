@@ -14,8 +14,12 @@ public class SuperObject {
 	public int worldX, worldY;
 	public int spriteCounter = 0;
 	public int spriteNum = 1;
+	public int powerCount = 0;
 	
-	public void update() {
+	public void update(Game game) {
+		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
+		int screenY = worldY;
+		
 		spriteCounter++;
 		if(spriteCounter > 30) {
 			if(spriteNum == 1) {
@@ -28,6 +32,15 @@ public class SuperObject {
 				spriteNum = 1;
 			}
 			spriteCounter = 0;
+		}
+		
+		if(game.getPlaying().ball.x >= screenX - (game.tileSize*2/3) && game.getPlaying().ball.x <= screenX + (game.tileSize*2/3) && game.getPlaying().ball.y >= screenY - game.tileSize && game.getPlaying().ball.y <= screenY + game.tileSize) {
+			collision = true;
+			powerCount++;
+		}
+		if(collision == true && powerCount == 1) {
+			power(game);
+			collision = false;
 		}
 	}
 	
@@ -51,4 +64,6 @@ public class SuperObject {
 			g2.drawImage(image, screenX, screenY, 3*game.tileSize, 3*game.tileSize, null);
 		}
 	}
+	
+	public void power(Game game) {}
 }

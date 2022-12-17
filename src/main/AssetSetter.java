@@ -29,7 +29,7 @@ public class AssetSetter {
 		}else if(m == 1) {
 			game.playing.obj[n] = new Lecturer();
 		}else if(m == 2) {
-			game.playing.obj[n] = new Wall();
+			game.playing.obj[n] = new DancingLecturer();
 		}else if(m == 3) {
 			game.playing.obj[n] = new Bus();
 		}

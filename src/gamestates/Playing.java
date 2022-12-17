@@ -64,7 +64,7 @@ public class Playing extends State implements Statemethods{
 			game.timeElapsed = System.currentTimeMillis() - game.startTime;
 			for(int i = 0; i < obj.length; i++) {
 				if(obj[i] != null) {
-					obj[i].update();
+					obj[i].update(game);
 				}
 			}
 			ball.update();

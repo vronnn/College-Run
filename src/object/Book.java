@@ -23,7 +23,8 @@ public class Book extends SuperObject{
 	}
 	
 	public void power(Game game){
-		game.getPlaying().ball.initSpeedX = (float)(((game.getPlaying().ball.speed + 2) * Math.cos(Math.toRadians(45))));
-		game.getPlaying().ball.initSpeedY = (float)(-(game.getPlaying().ball.speed + 2) * (float)Math.sin(Math.toRadians(45)));
+		if(game.getPlaying().powerUp.index < 3) {
+			game.getPlaying().powerUp.index++;
+		}
 	}
 }
