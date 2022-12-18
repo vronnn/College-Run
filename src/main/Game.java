@@ -29,7 +29,7 @@ public class Game implements Runnable {
 	public int GAME_WIDTH = tileSize * TILES_IN_WIDTH;
 	public int GAME_HEIGHT = tileSize * TILES_IN_HEIGHT;
 	
-	public final int maxWorldCol = 200;
+	public final int maxWorldCol = 203;
 	public final int maxWorldRow = 12;
 	public final int worldWidth = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
@@ -83,7 +83,6 @@ public class Game implements Runnable {
 		case PLAYING:{
 			playing.draw(g);
 			drawScore(g);
-			playing.powerUp.draw(g);
 			break;
 		}
 		default:

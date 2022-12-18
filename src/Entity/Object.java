@@ -10,4 +10,12 @@ public class Object {
 	
 	public int spriteCounter = 0;
 	public int spriteNum = 1;
+	
+	public double getX() {
+		return x;
+	}
+	
+	public double getY() {
+		return y;
+	}
 }

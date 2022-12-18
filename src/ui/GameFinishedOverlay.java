@@ -1,25 +1,36 @@
 package ui;
 
-import static utilz.Constants.UI.RHButtons.RHB_SIZE;
-
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 
 import gamestates.Gamestate;
+import gamestates.Playing;
 import main.Game;
+import utilz.LoadSave;
+import static utilz.Constants.UI.RHButtons.*;
 
-public class GameOverOverlay {
+public class GameFinishedOverlay {
 
 	Game game;
 	private RhButton retry, home;
-	
-	public GameOverOverlay(Game game) {
+	private BufferedImage img;
+	private int bgX, bgY, bgW, bgH;
+		
+	public GameFinishedOverlay(Game game) {
 		this.game = game;
+		
+		loadImg();
 		loadButtons();
+	}
+
+	private void loadImg() {
+		img = LoadSave.GetSpriteAtlas(LoadSave.ENDING_BACKGROUND);
+		bgW = (int) (img.getWidth() * (game.SCALE+0.5));
+		bgH = (int) (img.getHeight() * (game.SCALE+0.5));
+		bgX = game.GAME_WIDTH/2 - bgW/2;
+		bgY = (int) (120);
 	}
 	
 	private void loadButtons() {
@@ -30,22 +41,17 @@ public class GameOverOverlay {
 		home = new RhButton(homeX, y, RHB_SIZE, RHB_SIZE, 1);
 	}
 	
+		
 	public void draw(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
 		g.setColor(new Color(0,0,0,200));
 		g.fillRect(0, 0, game.GAME_WIDTH, game.GAME_HEIGHT);
-		
-		g.setColor(Color.white);
-		g2.setFont(Fonts.pixel.deriveFont(Font.BOLD, 30F));
-		g.drawString("GAME OVER!", 435, 200);
-//		g2.setFont(Fonts.nonpixel.deriveFont(Font.BOLD, 15F));
-//		g.drawString("Press esc to enter Main Menu!", 470, 300);
-		
+		g.drawImage(img, bgX, bgY, bgW, bgH, null);
 		retry.draw(g);
 		home.draw(g);
 	}
 	
 	public void update() {
+
 		retry.update();
 		home.update();
 	}
@@ -88,11 +94,5 @@ public class GameOverOverlay {
 		else if(isIn(retry, e))
 			retry.setMousePressed(true);
 	}
-	
-	public void keyPressed(KeyEvent e) {
-		if(e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			game.getPlaying().resetAll();
-			Gamestate.state = Gamestate.MENU;
-		}
-	}
+
 }

@@ -61,13 +61,14 @@ public class Ball extends Object{
 	
 	public void update() {
 		
-		System.out.println(initSpeedX);
-		
-		if(initSpeedX <= 0.001 && initSpeedX >= 0.00005 && game.getPlaying().gameOver == false && game.getPlaying().playState == 1) {
+		if(x > 8730 && game.getPlaying().gameFinished == false) {
+			game.getPlaying().setGameFinished(true);
+			return;
+		}
+		if(initSpeedX <= 0.001 && game.getPlaying().gameOver == false && game.getPlaying().playState == 1) {
 			game.getPlaying().setGameOver(true);
 			return;
 		}
-		fase = "move";
 		spriteCounter++;
 		if(spriteCounter > counterLimit) {
 			if(spriteNum == 1) {
@@ -123,6 +124,20 @@ public class Ball extends Object{
 				image = img4;
 			}
 			break;
+		case "hit":
+			if(spriteNum == 1) {
+				image = img1;
+			}
+			if(spriteNum == 2) {
+				image = img1;
+			}
+			if(spriteNum == 3) {
+				image = img1;
+			}
+			if(spriteNum == 4) {
+				image = img1;
+			}
+			break;
 		
 		}
 		
@@ -131,9 +146,8 @@ public class Ball extends Object{
 
 	public void resetAll() {
 		spriteNum = 1;
-		counterLimit = 3;
-		x = 3 * game.tileSize;
-		y = game.GAME_HEIGHT - 2* game.tileSize;
+		setDefaultValues();
+		getPlayerImage();
 	}
 	
 }

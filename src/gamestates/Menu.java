@@ -6,18 +6,15 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 
 import main.Game;
-import main.GamePanel;
-import ui.LaunchButton;
 import ui.MenuButton;
-import ui.QuitButton;
 import utilz.LoadSave;
 
 public class Menu extends State implements Statemethods{
 
-	public MenuButton play;
-	public QuitButton quit;
-	private BufferedImage backgroundMenu, backgroundImg;
-	private int menuX, menuY, menuWIdth, menuHeight;
+	private MenuButton[] buttons = new MenuButton[2];
+	private BufferedImage backgroundMenu1,backgroundMenu2, backgroundImg;
+	private int menuX1, menuY1, menuWIdth1, menuHeight1;
+	private int menuX2, menuY2, menuWIdth2, menuHeight2;
 	
 	public Menu(Game game) {
 		super(game);
@@ -27,37 +24,38 @@ public class Menu extends State implements Statemethods{
 	}
 	
 	private void loadBackground() {
-		backgroundMenu = LoadSave.GetSpriteAtlas(LoadSave.MENU_BACKGROUND);
-		menuWIdth = (int) (backgroundMenu.getWidth() * 1.5);
-		menuHeight = (int) (backgroundMenu.getHeight() * 1.5);
-		menuX = game.GAME_WIDTH / 2 - menuWIdth / 2;
-		menuY = (int) 70;
+		backgroundMenu1 = LoadSave.GetSpriteAtlas(LoadSave.COLLEGE);
+		backgroundMenu2 = LoadSave.GetSpriteAtlas(LoadSave.RUN);
+		menuWIdth1 = (int) (backgroundMenu1.getWidth() * 5);
+		menuHeight1 = (int) (backgroundMenu1.getHeight() * 5);
+		menuX1 = game.GAME_WIDTH / 2 - menuWIdth1 / 2;
+		menuY1 = (int) 109;
+		menuWIdth2 = (int) (backgroundMenu2.getWidth() * 4.5);
+		menuHeight2 = (int) (backgroundMenu2.getHeight() * 4.5);
+		menuX2 = game.GAME_WIDTH / 2 - menuWIdth2 / 2;
+		menuY2 = (int) 170;
 	}
 
 	private void loadButtons() {
-		//buttons[0] = new MenuButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.PLAYING);
-		play = new MenuButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.PLAYING);
-		quit = new QuitButton(game.GAME_WIDTH / 2, (int) (340), 0, Gamestate.QUIT);
+		buttons[0] = new MenuButton(game.GAME_WIDTH / 2, (int) (260), 0, Gamestate.PLAYING);
+		buttons[1] = new MenuButton(game.GAME_WIDTH / 2, (int) (325), 1, Gamestate.QUIT);
 	}
 
 	@Override
 	public void update() {
-//		for (MenuButton mb : buttons)
-//			mb.update();
-		play.update();
-		quit.update();
+		for (MenuButton mb : buttons)
+			mb.update();
 	}
 
 	@Override
 	public void draw(Graphics g) {
 		
 		g.drawImage(backgroundImg, 0, 0, game.GAME_WIDTH, game.GAME_HEIGHT, null);
-		g.drawImage(backgroundMenu, menuX, menuY, menuWIdth, menuHeight, null);
+		g.drawImage(backgroundMenu1, menuX1, menuY1, menuWIdth1, menuHeight1, null);
+		g.drawImage(backgroundMenu2, menuX2, menuY2, menuWIdth2, menuHeight2, null);
 		
-		play.draw(g);
-		quit.draw(g);
-//		for (MenuButton mb : buttons)
-//			mb.draw(g);
+		for (MenuButton mb : buttons)
+			mb.draw(g);
 	}
 
 	@Override
@@ -68,67 +66,41 @@ public class Menu extends State implements Statemethods{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-//		for (MenuButton mb : buttons) {
-//			if (isIn(e, mb)) {
-//				mb.setMousePressed(true);
-//			}
-//		}
-		if (isIn(e, play)) {
-			play.setMousePressed(true);
-		}
-		else if (isIn(e, quit)) {
-			quit.setMousePressed(true);
+		for (MenuButton mb : buttons) {
+			if (isIn(e, mb)) {
+				mb.setMousePressed(true);
+			}
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-//		for (MenuButton mb : buttons) {
-//			if (isIn(e, mb)) {
-//				if (mb.isMousePressed())
-//					mb.applyGamestate();
-//				break;
-//			}
-//		}
-		if (isIn(e, play)) {
-			if (play.isMousePressed())
-				play.applyGamestate();
-		}
-		else if (isIn(e, quit)) {
-			if (quit.isMousePressed())
-				quit.applyGamestate();
+		for (MenuButton mb : buttons) {
+			if (isIn(e, mb)) {
+				if (mb.isMousePressed())
+					mb.applyGamestate();
+				break;
+			}
 		}
 
 		resetButtons();
 	}
 	
 	private void resetButtons() {
-//		for (MenuButton mb : buttons)
-//			mb.resetBools();
-
-		play.resetBools();
-		quit.resetBools();
+		for (MenuButton mb : buttons)
+			mb.resetBools();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-//		for (MenuButton mb : buttons)
-//			mb.setMouseOver(false);
-//
-//		for (MenuButton mb : buttons)
-//			if (isIn(e, mb)) {
-//				mb.setMouseOver(true);
-//				break;
-//			}
-		
-		play.setMouseOver(false);
-		quit.setMouseOver(false);
-		if (isIn(e, play)) {
-			play.setMouseOver(true);
-		}
-		else if (isIn(e, quit)) {
-			quit.setMouseOver(true);
-		}
+		for (MenuButton mb : buttons)
+			mb.setMouseOver(false);
+
+		for (MenuButton mb : buttons)
+			if (isIn(e, mb)) {
+				mb.setMouseOver(true);
+				break;
+			}
 	}
 
 	@Override

@@ -22,7 +22,7 @@ public class TileManager {
 		
 		this.game = game;
 		
-		tile = new Tile[18];
+		tile = new Tile[24];
 		mapTileNum = new int[game.maxWorldCol][game.maxWorldRow];
 		
 		getTileImage();
@@ -87,6 +87,24 @@ public class TileManager {
 			tile[17] = new Tile();
 			tile[17].image = ImageIO.read(getClass().getResourceAsStream("/tiles/land.png"));
 			
+			tile[18] = new Tile();
+			tile[18].image = ImageIO.read(getClass().getResourceAsStream("/tiles/finish_line.png"));
+			
+			tile[19] = new Tile();
+			tile[19].image = ImageIO.read(getClass().getResourceAsStream("/tiles/fin_land.png"));
+			
+			tile[20] = new Tile();
+			tile[20].image = ImageIO.read(getClass().getResourceAsStream("/tiles/prefin1.png"));
+			
+			tile[21] = new Tile();
+			tile[21].image = ImageIO.read(getClass().getResourceAsStream("/tiles/prefin2.png"));
+			
+			tile[22] = new Tile();
+			tile[22].image = ImageIO.read(getClass().getResourceAsStream("/tiles/prefin3.png"));
+			
+			tile[23] = new Tile();
+			tile[23].image = ImageIO.read(getClass().getResourceAsStream("/tiles/finish_line2.png"));
+			
 		}catch(IOException e){
 			e.printStackTrace();
 		}
@@ -136,7 +154,7 @@ public class TileManager {
 			int screenY = row * game.tileSize;
 			
 			if(worldX + game.tileSize >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
-					worldX - game.tileSize < 2*game.getPlaying().ball.x + (21*game.tileSize)) {
+					worldX - game.tileSize < game.getPlaying().ball.x + (21*game.tileSize)) {
 				
 				g2.drawImage(tile[tileNum].image, screenX, screenY, game.tileSize, game.tileSize, null);
 			}
@@ -146,13 +164,10 @@ public class TileManager {
 			if(col == game.maxWorldCol) {
 				col = 0;
 				row++;
-				if(row > game.maxWorldRow) {
-					col = 0;
-					row = 0;
-				}
 			}
 		}
 	}
+	
 	
 //	public void draw(Graphics2D g2) {
 //		

@@ -16,7 +16,8 @@ public class Camera {
 	}
 	
 	public void update() {
-		x -= ball.initSpeedX;
+		if(ball.x < 7900)
+			x -= ball.initSpeedX;
 		//System.out.println(x + " " + y);
 	}
 	

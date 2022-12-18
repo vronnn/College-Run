@@ -12,7 +12,9 @@ import main.Camera;
 import main.Game;
 import object.SuperObject;
 import tile.TileManager;
+import ui.DrawScore;
 import ui.Fonts;
+import ui.GameFinishedOverlay;
 import ui.GameOverOverlay;
 import ui.LaunchButton;
 import ui.PowerBar;
@@ -24,15 +26,18 @@ public class Playing extends State implements Statemethods{
 	public Ball ball;
 	TileManager tileM;
 	public GameOverOverlay gameOverOverlay;
+	public GameFinishedOverlay gameFinishedOverlay;
 	public AssetSetter aSetter = new AssetSetter(game);
 	public SuperObject[] obj = new SuperObject[10];
 	public LaunchButton launchButton;
 	public PowerBar powerBar;
 	public PowerUp powerUp;
 	public Fonts fonts;
+	public DrawScore drawScore;
 	public long timePressed;
 	public int playState = 0;
-	public boolean gameOver = false;
+	public boolean gameOver;
+	public boolean gameFinished;
 	
 	public Playing(Game game) {
 		super(game);
@@ -45,69 +50,69 @@ public class Playing extends State implements Statemethods{
 		ball = new Ball(game);
 		cam = new Camera(0, 0, game, ball);
 		launchButton = new LaunchButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.LAUNCH);
-		powerBar = new PowerBar(game.GAME_WIDTH / 2, (int) (100), 0);
+		powerBar = new PowerBar(game.GAME_WIDTH / 2, (int) (50), 0);
 		fonts = new Fonts(game);
 		powerUp = new PowerUp((int)(ball.x - ball.screenX + 20), 20);
+		drawScore = new DrawScore(992, 40, this);
 		gameOverOverlay = new GameOverOverlay(game);
+		gameFinishedOverlay = new GameFinishedOverlay(game);
 	}
 
 	@Override
 	public void update() {
-		
-		if(playState == 0) {
-			launchButton.update();
-			if(launchButton.mousePressed) {
-				powerBar.update();
-			}
+
+		if(gameFinished) {
+			gameFinishedOverlay.update();
+		}
+		else if(gameOver) {
+			gameOverOverlay.update();
 		}
 		else {
-			game.timeElapsed = System.currentTimeMillis() - game.startTime;
-			for(int i = 0; i < obj.length; i++) {
-				if(obj[i] != null) {
-					obj[i].update(game);
+			if(playState == 0) {
+				launchButton.update();
+				if(launchButton.mousePressed) {
+					powerBar.update();
 				}
 			}
-			ball.update();
-			cam.update();
+			else {
+				game.timeElapsed = System.currentTimeMillis() - game.startTime;
+				for(int i = 0; i < obj.length; i++) {
+					if(obj[i] != null) {
+						obj[i].update(game);
+					}
+				}
+				ball.update();
+				cam.update();
+			}
 		}
 	}
 
 	@Override
 	public void draw(Graphics g) {
+		
 		Graphics2D g2 = (Graphics2D)g;
-		if(playState == 0) {
-			tileM.draw(g2);
-			launchButton.draw(g);
-			powerBar.draw(g);
-			for(int i = 0; i < obj.length; i++) {
-				if(obj[i] != null) {
-					obj[i].draw(g2, game);
-				}
+		
+		tileM.draw(g2);
+		for(int i = 0; i < obj.length; i++) {
+			if(obj[i] != null) {
+				obj[i].draw(g2, game);
 			}
-			ball.draw(g2);
 		}
-		else if(gameOver) {
-			g2.translate(cam.getX(), cam.getY());
-			tileM.draw(g2);
-			for(int i = 0; i < obj.length; i++) {
-				if(obj[i] != null) {
-					obj[i].draw(g2, game);
-				}
-			}
-			ball.draw(g2);
-			g2.translate(-cam.getX(), -cam.getY());
+		g2.translate(cam.getX(), cam.getY());
+		ball.draw(g2);
+		g2.translate(-cam.getX(), -cam.getY());
+		powerUp.draw(g);
+		drawScore.draw(g);
+		
+		if(gameOver) {
 			gameOverOverlay.draw(g);
 		}
-		else {
-			g2.translate(cam.getX(), cam.getY());
-			tileM.draw(g2);
-			for(int i = 0; i < obj.length; i++) {
-				if(obj[i] != null) {
-					obj[i].draw(g2, game);
-				}
-			}
-			ball.draw(g2);
-			g2.translate(-cam.getX(), -cam.getY());
+		else if(gameFinished) {
+			gameFinishedOverlay.draw(g);
+		}
+		else if(playState == 0) {
+			launchButton.draw(g);
+			powerBar.draw(g);
 		}
 	}
 	
@@ -120,51 +125,81 @@ public class Playing extends State implements Statemethods{
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (isIn1(e, launchButton)) {
-			launchButton.setMousePressed(true);
-			timePressed = System.nanoTime();
+		if(gameFinished) {
+			gameFinishedOverlay.mousePressed(e);
+		}
+		else if(gameOver) {
+			gameOverOverlay.mousePressed(e);
+		}
+		else {
+			if (isIn1(e, launchButton)) {
+				launchButton.setMousePressed(true);
+				timePressed = System.nanoTime();
+			}
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (isIn1(e, launchButton)) {
-			if (launchButton.isMousePressed()) {
-				playState = 1;
-				ball.initSpeedX = (float)((powerBar.index * Math.cos(Math.toRadians(45)))*5/6);
-				ball.initSpeedY = (float)(-powerBar.index * (float)Math.sin(Math.toRadians(60)));
-			}
+		if(gameFinished) {
+			gameFinishedOverlay.mouseReleased(e);
 		}
-		powerBar.index = 0;
+		else if(gameOver) {
+			gameOverOverlay.mouseReleased(e);
+		}
+		else {
+			if (isIn1(e, launchButton)) {
+				if (launchButton.isMousePressed()) {
+					playState = 1;
+					ball.initSpeedX = (float)((powerBar.index *2 * Math.cos(Math.toRadians(45)))*5/6);
+					ball.initSpeedY = (float)(-powerBar.index * (float)Math.sin(Math.toRadians(60)));
+				}
+			}
+			powerBar.index = 0;
+		}
 		resetButtons();
 	}
 	
 	private void resetButtons() {
-//		for (MenuButton mb : buttons)
-//			mb.resetBools();
-
 		launchButton.resetBools();
 	}
 
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		launchButton.setMouseOver(false);
-		if (isIn1(e, launchButton)) {
-			launchButton.setMouseOver(true);
+		if(gameFinished) {
+			gameFinishedOverlay.mouseMoved(e);
+		}
+		else if(gameOver) {
+			gameOverOverlay.mouseMoved(e);
+		}
+		else {
+			launchButton.setMouseOver(false);
+			if (isIn1(e, launchButton)) {
+				launchButton.setMouseOver(true);
+			}
 		}
 	}
 	
 	public void resetAll() {
 		// TODO: reset ball, map, etc
 		gameOver = false;
+		gameFinished = false;
 		playState = 0;
-		ball.resetAll();
+		powerUp.index = 3;
+		for(SuperObject so : obj) {
+			if(so != null)
+				so.powerCount = 0;
+		}
+		initSetup();
 		
 	}
 	
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
-		
+	}
+	
+	public void setGameFinished(boolean gameFinished) {
+		this.gameFinished = gameFinished;
 	}
 
 	@Override
@@ -178,10 +213,14 @@ public class Playing extends State implements Statemethods{
 				if(playState == 1 && powerUp.index != 0) {
 					game.startTime += game.timeElapsed;
 					game.timeElapsed = 1000;
+					ball.initSpeedX = (float)(((game.getPlaying().ball.speed + 10) * Math.cos(Math.toRadians(45))));
+					ball.initSpeedY = (float)(-(game.getPlaying().ball.speed + 10) * (float)Math.sin(Math.toRadians(45)));
 					powerUp.update();
 				}
 				break;
 			}
+			default:
+				break;
 			}
 		}
 		
