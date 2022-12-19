@@ -8,13 +8,12 @@ import static utilz.Constants.UI.PowerUps.*;
 
 public class PowerUp {
 
-	private int xPos, yPos;
+	private int xPos = 20;
+	private int yPos = 20;
 	public int index = 3;
 	private BufferedImage[] imgs;
 
-	public PowerUp(int xPos, int yPos) {
-		this.xPos = xPos;
-		this.yPos = yPos;
+	public PowerUp() {
 		loadImgs();
 	}
 	

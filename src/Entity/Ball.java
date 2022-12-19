@@ -13,8 +13,8 @@ public class Ball extends Object{
 
 	Game game;
 	
-	public final int screenX;
-	public final int screenY;
+	public int screenX;
+	public int screenY;
 	public double lastX, lastY;
 	public double initSpeedX, initSpeedY;
 	public double lastSpeedX, lastSpeedY;
@@ -28,7 +28,7 @@ public class Ball extends Object{
 		
 		this.game = game;
 		
-		screenX = 3 * game.tileSize;
+		screenX = 7 * game.tileSize - 30;
 		screenY = game.GAME_HEIGHT - 2* game.tileSize;	
 		
 		setDefaultValues();
@@ -38,7 +38,7 @@ public class Ball extends Object{
 	
 	public void setDefaultValues() {
 		
-		this.x = 3 * game.tileSize;
+		this.x = 7 * game.tileSize - 30;
 		this.y = game.GAME_HEIGHT - 2* game.tileSize;
 		fase = "move";
 	}
@@ -61,7 +61,7 @@ public class Ball extends Object{
 	
 	public void update() {
 		
-		if(x > 8730 && game.getPlaying().gameFinished == false) {
+		if(x > game.getPlaying().finishDistance && game.getPlaying().gameFinished == false) {
 			game.getPlaying().setGameFinished(true);
 			return;
 		}
@@ -144,10 +144,12 @@ public class Ball extends Object{
 		g2.drawImage(image, (int) (x),(int) (y), game.tileSize, game.tileSize, null);
 	}
 
-	public void resetAll() {
+	public void reset() {
 		spriteNum = 1;
+		spriteCounter = 0;
+		counterLimit = 3;
+		screenX = 7 * game.tileSize - 30;
 		setDefaultValues();
-		getPlayerImage();
 	}
 	
 }

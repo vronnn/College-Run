@@ -16,9 +16,21 @@ public class Camera {
 	}
 	
 	public void update() {
-		if(ball.x < 7900)
-			x -= ball.initSpeedX;
+		if(ball.x < 37000) {
+			if(ball.screenX != 3 * game.tileSize) {
+				System.out.println("masuk cam");
+				x -= (ball.initSpeedX + 2);
+				ball.screenX -= 2;
+			}
+			else
+				x -= ball.initSpeedX;
+		}
 		//System.out.println(x + " " + y);
+	}
+	
+	public void reset() {
+		x = 0;
+		y = 0;
 	}
 	
 	public double getX() {

@@ -47,5 +47,13 @@ public class Constants {
 			public static final int BOOK_WIDTH = (int)(BOOK_WIDTH_DEFAULT * 5);
 			public static final int BOOK_HEIGHT = (int)(BOOK_HEIGHT_DEFAULT * 5);
 		}
+		public static class Lecturers {
+			public static final int LECTURER_SIZE_DEFAULT = 64;
+			public static final int LECTURER_SIZE = (int)(LECTURER_SIZE_DEFAULT * 2.1);
+		}
+		public static class Batters {
+			public static final int BATTER_SIZE_DEFAULT = 64;
+			public static final int BATTER_SIZE = (int)(BATTER_SIZE_DEFAULT * 2.5);
+		}
 	}
 }

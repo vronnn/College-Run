@@ -1,24 +1,28 @@
 package object;
 
-import static utilz.Constants.SpriteImg.Buses.BUS_HEIGHT;
-import static utilz.Constants.SpriteImg.Buses.BUS_WIDTH;
-
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import Entity.Ball;
 import gamestates.Playing;
 import main.Game;
 
+import static utilz.Constants.SpriteImg.Batters.BATTER_SIZE;
+import static utilz.Constants.SpriteImg.Lecturers.*;
+
 public class Lecturer extends SuperObject{
 	
+	public int x,y;
 	public Rectangle bounds;
 	public int powerCount = 0;
 	
-	public void initBounds(int x, int y) {
-		bounds = new Rectangle(x, y, BUS_WIDTH, BUS_HEIGHT);
+	public void initBounds(int x, int yPos) {
+		bounds = new Rectangle(x - 5, yPos - LECTURER_SIZE -5, LECTURER_SIZE + 5, LECTURER_SIZE + 5);
+		this.x = x;
+		this.y = yPos - LECTURER_SIZE;
 	}
 	
 	public Rectangle getBounds() {
@@ -33,8 +37,7 @@ public class Lecturer extends SuperObject{
 			
 			img1 = ImageIO.read(getClass().getResourceAsStream("/lecturer/lecturer1.png"));	
 			img2 = ImageIO.read(getClass().getResourceAsStream("/lecturer/lecturer2.png"));
-			img3 = ImageIO.read(getClass().getResourceAsStream("/lecturer/lecturer3.png"));	
-			img4 = ImageIO.read(getClass().getResourceAsStream("/lecturer/lecturer4.png"));	
+			img3 = ImageIO.read(getClass().getResourceAsStream("/lecturer/lecturer3.png"));
 			
 		}catch(IOException e) {
 			e.printStackTrace();
@@ -47,40 +50,53 @@ public class Lecturer extends SuperObject{
 			playing.ball.initSpeedX -= 1;
 			playing.ball.initSpeedY += 1;
 			playing.ball.fase = "hit";
+			fase = "hit";
 			powerCount++;
 		}
-//		if(playing.ball.initSpeedX >= 2 && playing.ball.initSpeedY >= 2) {
-//			playing.ball.initSpeedX -= 1;
-//			playing.ball.initSpeedY -= 1;
-//			game.getPlaying().ball.initSpeedX = (float)(((game.getPlaying().ball.speed/5) * Math.cos(Math.toRadians(45))));
-//		}else if(game.getPlaying().ball.initSpeedX < 5) {
-//			game.getPlaying().ball.initSpeedX = 1;
-//			game.getPlaying().ball.initSpeedY = 1;
-//		}else if(playing.ball.initSpeedX <= 1) {
-//			playing.ball.initSpeedX = 0;
-//			playing.ball.initSpeedY = 0;
-//
-//		}
+	}
+	
+	public boolean isIn(Ball ball) {
+		return bounds.contains(ball.getX(),ball.getY());
+	}
+	
+	@Override
+	public void update(Game game) {	
+		
+		if(worldX + BATTER_SIZE < game.getPlaying().ball.x - game.getPlaying().ball.screenX) {
+			drawed = true;
+		}
+		
+		if(isIn(game.getPlaying().ball)) {;
+			this.power(game.getPlaying());
+		}
+		game.getPlaying().ball.fase = "move";
 	}
 	
 	public void draw(Graphics2D g2, Game game) {
-		//System.out.println("gambar dancing lecturer");
 		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
-		int screenY = game.GAME_HEIGHT - game.tileSize - BUS_HEIGHT;
+		int screenY = game.GAME_HEIGHT - game.tileSize - LECTURER_SIZE;
 		
-		if(worldX + 4*game.tileSize>= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
-				worldX - 4*game.tileSize < game.getPlaying().ball.x + (21*game.tileSize)) {
+		if(worldX + LECTURER_SIZE >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
+				worldX - LECTURER_SIZE < game.getPlaying().ball.x + (21*game.tileSize)) {
 			switch (fase){
 			case "diam": {
-				g2.drawImage(img1, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
+				g2.drawImage(img1, screenX, screenY, LECTURER_SIZE, LECTURER_SIZE, null);
+				break;
 			}
 			case "hit": {
-				g2.drawImage(img2, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
+				g2.drawImage(img3, screenX, screenY, LECTURER_SIZE, LECTURER_SIZE, null);
+				break;
 			}
 			default:
 				break;
 			}
 		}
+	}
+	
+	public void reset() {
+		worldX = x;
+		worldY = y;
+		fase = "diam";
 	}
 }
 

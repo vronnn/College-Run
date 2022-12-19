@@ -30,7 +30,7 @@ public class LaunchButton {
 	private void initBounds() {
 		bounds = new Rectangle(xPos - xOffsetCenter, yPos, LB_WIDTH, LB_HEIGHT);
 	}
-
+	
 	private void loadImgs() {
 		imgs = new BufferedImage[3];
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.LAUNCH_BUTTONS);
@@ -51,6 +51,7 @@ public class LaunchButton {
 		if(mousePressed)
 			index = 2;
 	}
+	
 
 	public boolean isMouseOver() {
 		return mouseOver;

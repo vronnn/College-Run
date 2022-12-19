@@ -29,7 +29,7 @@ public class Game implements Runnable {
 	public int GAME_WIDTH = tileSize * TILES_IN_WIDTH;
 	public int GAME_HEIGHT = tileSize * TILES_IN_HEIGHT;
 	
-	public final int maxWorldCol = 203;
+	public final int maxWorldCol = 800;
 	public final int maxWorldRow = 12;
 	public final int worldWidth = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
@@ -82,7 +82,6 @@ public class Game implements Runnable {
 			break;
 		case PLAYING:{
 			playing.draw(g);
-			drawScore(g);
 			break;
 		}
 		default:
@@ -133,13 +132,6 @@ public class Game implements Runnable {
 			}
 		}
 
-	}
-	
-	public void drawScore(Graphics g) {
-		Graphics2D g2 = (Graphics2D)g;
-		g2.setColor(Color.white);
-		g2.setFont(Fonts.nonpixel.deriveFont(Font.BOLD, 20F));
-		g2.drawString("SCORE =  " + (int) (playing.ball.x / 96 - 1), GAME_WIDTH - 160, 40);
 	}
 
 	public void windowFocusLost() {

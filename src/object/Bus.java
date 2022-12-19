@@ -13,14 +13,18 @@ import static utilz.Constants.SpriteImg.Buses.*;
 
 public class Bus extends SuperObject{
 	
+	public int x, y;
 	public Rectangle bounds;
 	public int powerCount = 0;
-	public int moveCounter = 0;
 	public boolean hit;
 	
 	@Override
 	public void initBounds(int x, int yPos) {
-		bounds = new Rectangle(x, yPos - BUS_HEIGHT, BUS_WIDTH, BUS_HEIGHT);
+		bounds = new Rectangle(x - 45, yPos - BUS_HEIGHT - 10, BUS_WIDTH, BUS_HEIGHT);
+		this.x = x;
+		this.y = yPos - BUS_HEIGHT - 3; 
+		worldX = x;
+		worldY = y;
 	}
 	
 	public Rectangle getBounds() {
@@ -44,16 +48,15 @@ public class Bus extends SuperObject{
 	
 	public void power(Playing playing){
 		if(powerCount == 0) {
-			if(playing.ball.initSpeedY > -6 && playing.ball.initSpeedX < 6) {
+			if(playing.ball.initSpeedY > -7 && playing.ball.initSpeedX < 7) {
 				System.out.println("kena bus");
 				playing.ball.initSpeedX += 5;
 				playing.ball.initSpeedY -= 5;
 				playing.ball.fase = "hit";
+				fase = "hit";
 				powerCount++;
 			}
 		}
-	//		playing.ball.initSpeedX = (float)(((playing.ball.speed + 2) * Math.cos(Math.toRadians(60))));
-	//		playing.ball.initSpeedY = (float)(-(playing.ball.speed + 2) * (float)Math.sin(Math.toRadians(60)));
 	}
 	
 	public boolean isIn(Ball ball) {
@@ -68,6 +71,11 @@ public class Bus extends SuperObject{
 	
 	@Override
 	public void update(Game game) {	
+		
+		if(worldX + BUS_WIDTH < game.getPlaying().ball.x - game.getPlaying().ball.screenX) {
+			drawed = true;
+		}
+		
 		leftAnimation();
 		
 		if(isIn(game.getPlaying().ball)) {;
@@ -83,12 +91,12 @@ public class Bus extends SuperObject{
 		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
 		int screenY = game.GAME_HEIGHT - 45 - BUS_HEIGHT;
 		
-		if(worldX + 4*game.tileSize>= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
-				worldX - 4*game.tileSize < game.getPlaying().ball.x + (21*game.tileSize)) {
+		if(worldX + BUS_WIDTH >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
+				worldX - BUS_WIDTH < game.getPlaying().ball.x + (21*game.tileSize)) {
 			switch (fase){
 			case "diam": {
 				g2.drawImage(img1, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
-				//g2.drawRect(screenX, screenY, BUS_WIDTH, BUS_HEIGHT);
+				break;
 			}
 			case "hit": {
 				g2.drawImage(img2, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
@@ -97,5 +105,10 @@ public class Bus extends SuperObject{
 				break;
 			}
 		}
+	}
+	
+	public void reset() {
+		fase = "diam";
+		hit = false;
 	}
 }

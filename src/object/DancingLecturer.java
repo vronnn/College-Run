@@ -79,4 +79,8 @@ public class DancingLecturer extends SuperObject{
 			}
 		}
 	}
+	
+	public void reset() {
+		
+	}
 }

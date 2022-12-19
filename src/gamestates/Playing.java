@@ -38,6 +38,8 @@ public class Playing extends State implements Statemethods{
 	public int playState = 0;
 	public boolean gameOver;
 	public boolean gameFinished;
+	public boolean setCam;
+	public int finishDistance = 37800;
 	
 	public Playing(Game game) {
 		super(game);
@@ -52,8 +54,8 @@ public class Playing extends State implements Statemethods{
 		launchButton = new LaunchButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.LAUNCH);
 		powerBar = new PowerBar(game.GAME_WIDTH / 2, (int) (50), 0);
 		fonts = new Fonts(game);
-		powerUp = new PowerUp((int)(ball.x - ball.screenX + 20), 20);
-		drawScore = new DrawScore(992, 40, this);
+		powerUp = new PowerUp();
+		drawScore = new DrawScore(this);
 		gameOverOverlay = new GameOverOverlay(game);
 		gameFinishedOverlay = new GameFinishedOverlay(game);
 	}
@@ -78,7 +80,12 @@ public class Playing extends State implements Statemethods{
 				game.timeElapsed = System.currentTimeMillis() - game.startTime;
 				for(int i = 0; i < obj.length; i++) {
 					if(obj[i] != null) {
-						obj[i].update(game);
+						if(obj[i].drawed) {
+							aSetter.resetObject(obj[i],i);
+							obj[i].drawed = false;
+						}
+						else
+							obj[i].update(game);
 					}
 				}
 				ball.update();
@@ -98,11 +105,11 @@ public class Playing extends State implements Statemethods{
 				obj[i].draw(g2, game);
 			}
 		}
+		drawScore.draw(g);
 		g2.translate(cam.getX(), cam.getY());
 		ball.draw(g2);
 		g2.translate(-cam.getX(), -cam.getY());
 		powerUp.draw(g);
-		drawScore.draw(g);
 		
 		if(gameOver) {
 			gameOverOverlay.draw(g);
@@ -187,11 +194,14 @@ public class Playing extends State implements Statemethods{
 		playState = 0;
 		powerUp.index = 3;
 		for(SuperObject so : obj) {
-			if(so != null)
+			if(so != null) {
 				so.powerCount = 0;
+				so.reset();
+			}	
 		}
-		initSetup();
-		
+		aSetter.reset();
+		ball.reset();
+		cam.reset();
 	}
 	
 	public void setGameOver(boolean gameOver) {
@@ -213,8 +223,8 @@ public class Playing extends State implements Statemethods{
 				if(playState == 1 && powerUp.index != 0) {
 					game.startTime += game.timeElapsed;
 					game.timeElapsed = 1000;
-					ball.initSpeedX = (float)(((game.getPlaying().ball.speed + 10) * Math.cos(Math.toRadians(45))));
-					ball.initSpeedY = (float)(-(game.getPlaying().ball.speed + 10) * (float)Math.sin(Math.toRadians(45)));
+					ball.initSpeedX += (float)(((game.getPlaying().ball.speed) * Math.cos(Math.toRadians(45))));
+					ball.initSpeedY += (float)(-(game.getPlaying().ball.speed) * (float)Math.sin(Math.toRadians(45)));
 					powerUp.update();
 				}
 				break;

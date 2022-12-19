@@ -12,14 +12,13 @@ import static utilz.Constants.SpriteImg.*;
 public class SuperObject {
 
 	BufferedImage img1,img2,img3,img4,image;
-	public String fase;
-	public String name;
-	public boolean collision = false;
+	public String fase, name;
 	public int worldX, worldY;
 	public int spriteCounter = 0;
 	public int spriteNum = 1;
 	public int powerCount = 0;
 	public Rectangle bounds;
+	public boolean drawed = false;
 	
 	public void initBounds(int x, int y) {
 		
@@ -43,6 +42,10 @@ public class SuperObject {
 	}
 	
 	public void power(Playing playing) {
+		
+	}
+	
+	public void reset() {
 		
 	}
 }

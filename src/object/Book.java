@@ -13,12 +13,15 @@ import static utilz.Constants.SpriteImg.Books.*;
 
 public class Book extends SuperObject{
 	
+	public int x,y;
 	public Rectangle bounds;
 	public int powerCount = 0;
 	
 	@Override
 	public void initBounds(int x, int yPos) {
-		bounds = new Rectangle(x, yPos - BOOK_HEIGHT + 5, BOOK_WIDTH, BOOK_HEIGHT);
+		bounds = new Rectangle(x, yPos - BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
+		this.x = x;
+		this.y = yPos - BOOK_HEIGHT + 5;
 	}
 	
 	@Override
@@ -57,6 +60,11 @@ public class Book extends SuperObject{
 	}
 	
 	public void update(Game game) {	
+		
+		if(worldX + BOOK_WIDTH < game.getPlaying().ball.x - game.getPlaying().ball.screenX) {
+			drawed = true;
+		}
+		
 		if(isIn(game.getPlaying().ball)) {
 			this.power(game.getPlaying());
 		}
@@ -68,18 +76,24 @@ public class Book extends SuperObject{
 		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
 		int screenY = game.GAME_HEIGHT - game.tileSize - BOOK_HEIGHT + 5;
 		
-		if(worldX + 4*game.tileSize >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
-				worldX - 4*game.tileSize < game.getPlaying().ball.x + (21*game.tileSize)) {
+		if(worldX + BOOK_WIDTH >= game.getPlaying().ball.x - game.getPlaying().ball.screenX &&
+				worldX - BOOK_WIDTH < game.getPlaying().ball.x + (21*game.tileSize)) {
 			switch (fase){
 			case "diam": {
 				g2.drawImage(img1, screenX, screenY, BOOK_WIDTH, BOOK_HEIGHT, null);
+				break;
 			}
 			case "hit": {
 				g2.drawImage(img4, screenX, screenY, BOOK_WIDTH, BOOK_HEIGHT, null);
+				break;
 			}
 			default:
 				break;
 			}
 		}
+	}
+	
+	public void reset() {
+		fase = "diam";
 	}
 }

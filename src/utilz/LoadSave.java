@@ -18,8 +18,9 @@ public class LoadSave {
 	public static final String RH_BUTTONS = "rh_button.png";
 	public static final String COLLEGE = "college.png";
 	public static final String RUN = "run.png";
-	public static final String QUIT_BUTTONS = "quit_button.png";
-
+	public static final String CATAPULT = "catapult.png";
+	public static final String HOUSE = "house.png";
+	public static final String BUILDING = "building.png";
 	
 	public static BufferedImage GetSpriteAtlas(String fileName) {
 		BufferedImage img = null;
