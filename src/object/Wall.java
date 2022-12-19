@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import gamestates.Playing;
 import main.Game;
 
 public class Wall extends SuperObject{
@@ -22,17 +23,13 @@ public class Wall extends SuperObject{
 //		}
 	}
 	
-	public void power(Game game){
-		if(game.getPlaying().ball.initSpeedX > 1) {
-			game.getPlaying().ball.initSpeedX = 1;
-		}else if(game.getPlaying().ball.initSpeedX <= 1) {
-			game.getPlaying().ball.initSpeedX = 0;
-		}
-		
-		if(game.getPlaying().ball.initSpeedY > 1) {
-			game.getPlaying().ball.initSpeedY = 1;
-		}else if(game.getPlaying().ball.initSpeedY <= 1) {
-			game.getPlaying().ball.initSpeedY = 1;
+	public void power(Playing playing){
+		if(powerCount == 0) {
+			System.out.println("kena lecturer");
+			playing.ball.initSpeedX -= 1;
+			playing.ball.initSpeedY += 1;
+			playing.ball.fase = "hit";
+			powerCount++;
 		}
 	}
 

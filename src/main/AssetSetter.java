@@ -14,10 +14,11 @@ public class AssetSetter {
 	
 	public void setObject() {
 		
-		for(int n = 1; n < 5; n++) {
-			//objectShape(n);
-			game.getPlaying().obj[n] = new Book();
-			game.getPlaying().obj[n].worldX = n * rand.nextInt(9000 - 150) + 150;
+		//Kalau Map nya udah seribu nanti MAX N nya ubah jadi 100
+		for(int n = 1; n < 10; n++) {
+			objectShape(n);
+			//game.getPlaying().obj[n] = new Book();
+			game.getPlaying().obj[n].worldX = (n * 32 * 100) + 150;
 			game.getPlaying().obj[n].initBounds(game.getPlaying().obj[n].worldX, game.GAME_HEIGHT - game.tileSize);
 		}
 	}
