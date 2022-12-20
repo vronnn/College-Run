@@ -17,8 +17,6 @@ public class AssetSetter {
 		for(int n = 1; n < 10; n++) {
 			
 			addObject(n);
-//			game.getPlaying().obj[n] = new Batter();
-//			game.getPlaying().obj[n].worldX = n * rand.nextInt(7000 - 500) + 150;
 			game.getPlaying().obj[n].worldX = (n * 32 * 100) + 150;
 			game.getPlaying().obj[n].initBounds(game.getPlaying().obj[n].worldX, game.GAME_HEIGHT - game.tileSize);
 		}
@@ -29,16 +27,16 @@ public class AssetSetter {
 		if(m == 0) {
 			game.getPlaying().obj[n] = new Book();
 		}else if(m == 1) {
-			game.getPlaying().obj[n] = new Lecturer();
-		}else if(m == 2) {
 			game.getPlaying().obj[n] = new Batter();
+		}else if(m == 2) {
+			game.getPlaying().obj[n] = new Lecturer();
 		}else if(m == 3) {
 			game.getPlaying().obj[n] = new Bus();
 		}
 	}
 	
 	public void resetObject(SuperObject so, int i) {
-		so.worldX = (int) (game.getPlaying().ball.x + (i * 1500));
+		so.worldX = (int) (game.getPlaying().ball.x + ((i + 9) * 32 * 100) + 150);
 		so.initBounds(so.worldX, game.GAME_HEIGHT - game.tileSize);
 		so.powerCount = 0;
 		so.fase = "diam";

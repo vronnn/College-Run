@@ -25,7 +25,6 @@ public class Camera {
 			else
 				x -= ball.initSpeedX;
 		}
-		//System.out.println(x + " " + y);
 	}
 	
 	public void reset() {

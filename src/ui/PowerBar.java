@@ -125,20 +125,12 @@ public class PowerBar {
 	}
 
 	public void setMousePressed(boolean mousePressed) {
-//		this.mousePressed = mousePressed;
 	}
 	
 	public Rectangle getBounds() {
 		return null;
-//		return bounds;
 	}
-	
-//	public void applyGamestate() {
-//		Gamestate.state = state;
-//	}
-	
+		
 	public void resetBools() {
-//		mouseOver = false;
-//		mousePressed = false;
 	}
 }

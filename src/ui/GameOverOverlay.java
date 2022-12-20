@@ -38,8 +38,6 @@ public class GameOverOverlay {
 		g.setColor(Color.white);
 		g2.setFont(Fonts.pixel.deriveFont(Font.BOLD, 30F));
 		g.drawString("GAME OVER!", 435, 200);
-//		g2.setFont(Fonts.nonpixel.deriveFont(Font.BOLD, 15F));
-//		g.drawString("Press esc to enter Main Menu!", 470, 300);
 		
 		retry.draw(g);
 		home.draw(g);
