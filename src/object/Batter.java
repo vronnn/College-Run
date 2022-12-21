@@ -124,6 +124,7 @@ public class Batter extends SuperObject{
 	
 	public void reset() {
 		fase = "diam";
+		powerCount = 0;
 		spriteNum = 1;
 		spriteCounter = 0;
 	}

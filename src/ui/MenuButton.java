@@ -8,7 +8,7 @@ import gamestates.Gamestate;
 import utilz.LoadSave;
 import static utilz.Constants.UI.Buttons.*;
 
-public class MenuButton {
+public class MenuButton implements ButtonInteraction{
 
 	private int xPos, yPos, rowIndex, index;
 	private int xOffsetCenter = B_WIDTH / 2;
@@ -26,11 +26,11 @@ public class MenuButton {
 		initBounds();
 	}
 	
-	private void initBounds() {
+	public void initBounds() {
 		bounds = new Rectangle(xPos - xOffsetCenter, yPos, B_WIDTH, B_HEIGHT);
 	}
 
-	private void loadImgs() {
+	public void loadImgs() {
 		imgs = new BufferedImage[3];
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.MENU_BUTTONS);
 		for(int i = 0; i < imgs.length; i++) {

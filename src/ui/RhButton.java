@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage;
 import utilz.LoadSave;
 import static utilz.Constants.UI.RHButtons.*;
 
-public class RhButton {
+public class RhButton implements ButtonInteraction{
 
 	private BufferedImage[] imgs;
 	int x, y, width, height, rowIndex, index;
@@ -24,11 +24,11 @@ public class RhButton {
 		initBounds();
 	}
 	
-	private void initBounds() {
+	public void initBounds() {
 		bounds = new Rectangle(x, y, RHB_SIZE, RHB_SIZE);
 	}
 	
-	private void loadImgs() {
+	public void loadImgs() {
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.RH_BUTTONS);
 		imgs = new BufferedImage[3];
 		for(int i = 0; i < imgs.length; i++) {
@@ -71,6 +71,12 @@ public class RhButton {
 	
 	public Rectangle getBounds() {
 		return bounds;
+	}
+
+	@Override
+	public void applyGamestate() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

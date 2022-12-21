@@ -14,14 +14,17 @@ import static utilz.Constants.SpriteImg.Books.*;
 public class Book extends SuperObject{
 	
 	public int x,y;
+	public int xb,yb;
 	public Rectangle bounds;
 	public int powerCount = 0;
 	
 	@Override
 	public void initBounds(int x, int yPos) {
-		bounds = new Rectangle(x, yPos - BOOK_HEIGHT, BOOK_WIDTH, BOOK_HEIGHT);
+		this.bounds = new Rectangle(x - 10, yPos - BOOK_HEIGHT + 5, BOOK_WIDTH + 10, BOOK_HEIGHT - 5);
 		this.x = x;
 		this.y = yPos - BOOK_HEIGHT + 5;
+		this.xb = x;
+		this.yb = y;
 	}
 	
 	@Override
@@ -46,7 +49,7 @@ public class Book extends SuperObject{
 	}
 	
 	public void power(Playing playing){
-		if(playing.powerUp.index < 3 && powerCount == 0) {
+		if(this.powerCount == 0 && playing.powerUp.index < 3) {
 			System.out.println("kena book");
 			playing.powerUp.index++;
 			playing.ball.fase = "hit";
@@ -94,6 +97,7 @@ public class Book extends SuperObject{
 	}
 	
 	public void reset() {
+		powerCount = 0;
 		fase = "diam";
 	}
 }

@@ -94,8 +94,7 @@ public class Lecturer extends SuperObject{
 	}
 	
 	public void reset() {
-		worldX = x;
-		worldY = y;
+		powerCount = 0;
 		fase = "diam";
 	}
 }

@@ -14,17 +14,18 @@ import static utilz.Constants.SpriteImg.Buses.*;
 public class Bus extends SuperObject{
 	
 	public int x, y;
+	public int xb,yb;
 	public Rectangle bounds;
 	public int powerCount = 0;
 	public boolean hit;
 	
 	@Override
 	public void initBounds(int x, int yPos) {
-		bounds = new Rectangle(x - 45, yPos - BUS_HEIGHT - 10, BUS_WIDTH, BUS_HEIGHT);
+		bounds = new Rectangle(x - 45, yPos - BUS_HEIGHT - 20, BUS_WIDTH + 45, BUS_HEIGHT - 20);
 		this.x = x;
 		this.y = yPos - BUS_HEIGHT - 3; 
-		worldX = x;
-		worldY = y;
+		this.xb = x;
+		this.yb = y;
 	}
 	
 	public Rectangle getBounds() {
@@ -95,7 +96,9 @@ public class Bus extends SuperObject{
 				worldX - BUS_WIDTH < game.getPlaying().ball.x + (21*game.tileSize)) {
 			switch (fase){
 			case "diam": {
+				System.out.println("xb : " + xb + " screenX : " + screenX);
 				g2.drawImage(img1, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
+				//g2.drawRect(screenX, screenY, BUS_WIDTH, BUS_HEIGHT);
 				break;
 			}
 			case "hit": {
@@ -109,6 +112,7 @@ public class Bus extends SuperObject{
 	
 	public void reset() {
 		fase = "diam";
+		powerCount = 0;
 		hit = false;
 	}
 }

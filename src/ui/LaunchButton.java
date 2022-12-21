@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 import gamestates.Gamestate;
 import utilz.LoadSave;
 
-public class LaunchButton {
+public class LaunchButton implements ButtonInteraction{
 
 	private int xPos, yPos, rowIndex, index;
 	private int xOffsetCenter = LB_WIDTH / 2;
@@ -27,11 +27,11 @@ public class LaunchButton {
 		initBounds();
 	}
 	
-	private void initBounds() {
+	public void initBounds() {
 		bounds = new Rectangle(xPos - xOffsetCenter, yPos, LB_WIDTH, LB_HEIGHT);
 	}
 	
-	private void loadImgs() {
+	public void loadImgs() {
 		imgs = new BufferedImage[3];
 		BufferedImage temp = LoadSave.GetSpriteAtlas(LoadSave.LAUNCH_BUTTONS);
 		for(int i = 0; i < imgs.length; i++) {

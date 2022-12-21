@@ -109,28 +109,5 @@ public class PowerBar {
 		}
 		
 	}
-
-	public boolean isMouseOver() {
-		return false;
-		
-	}
-
-	public void setMouseOver(boolean mouseOver) {
-//		this.mouseOver = mouseOver;
-	}
-
-	public boolean isMousePressed() {
-		return false;
-		
-	}
-
-	public void setMousePressed(boolean mousePressed) {
-	}
 	
-	public Rectangle getBounds() {
-		return null;
-	}
-		
-	public void resetBools() {
-	}
 }

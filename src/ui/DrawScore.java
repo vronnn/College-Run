@@ -1,13 +1,10 @@
 package ui;
 
-import static utilz.Constants.SpriteImg.Buses.BUS_HEIGHT;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.util.Set;
 
 import gamestates.Playing;
 import utilz.LoadSave;

@@ -32,7 +32,8 @@ public class PowerUp {
 	}
 	
 	public void update() {
-		if(index > 0)
+		if(index > 0) {
 			index--;
+		}
 	}
 }

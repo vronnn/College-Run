@@ -11,7 +11,7 @@ import main.AssetSetter;
 import main.Camera;
 import main.Game;
 import object.SuperObject;
-import tile.TileManager;
+import tile.Map;
 import ui.DrawScore;
 import ui.Fonts;
 import ui.GameFinishedOverlay;
@@ -24,7 +24,7 @@ public class Playing extends State implements Statemethods{
 
 	public Camera cam;
 	public Ball ball;
-	TileManager tileM;
+	public Map gameMap;
 	public GameOverOverlay gameOverOverlay;
 	public GameFinishedOverlay gameFinishedOverlay;
 	public AssetSetter aSetter = new AssetSetter(game);
@@ -48,7 +48,7 @@ public class Playing extends State implements Statemethods{
 	
 	private void initSetup() {
 
-		tileM = new TileManager(game);
+		gameMap = new Map(game);
 		ball = new Ball(game);
 		cam = new Camera(0, 0, game, ball);
 		launchButton = new LaunchButton(game.GAME_WIDTH / 2, (int) (270), 0, Gamestate.LAUNCH);
@@ -81,6 +81,7 @@ public class Playing extends State implements Statemethods{
 				for(int i = 0; i < obj.length; i++) {
 					if(obj[i] != null) {
 						if(obj[i].drawed) {
+							obj[i].reset();
 							aSetter.resetObject(obj[i],i);
 							obj[i].drawed = false;
 						}
@@ -99,7 +100,7 @@ public class Playing extends State implements Statemethods{
 		
 		Graphics2D g2 = (Graphics2D)g;
 		
-		tileM.draw(g2);
+		gameMap.draw(g2);
 		for(int i = 0; i < obj.length; i++) {
 			if(obj[i] != null) {
 				obj[i].draw(g2, game);

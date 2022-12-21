@@ -17,7 +17,8 @@ public class AssetSetter {
 		for(int n = 1; n < 10; n++) {
 			
 			addObject(n);
-			game.getPlaying().obj[n].worldX = (n * 32 * 100) + 150;
+//			game.getPlaying().obj[n] = new Batter();
+			game.getPlaying().obj[n].worldX = (n * 16 * 100);
 			game.getPlaying().obj[n].initBounds(game.getPlaying().obj[n].worldX, game.GAME_HEIGHT - game.tileSize);
 		}
 	}
@@ -36,7 +37,8 @@ public class AssetSetter {
 	}
 	
 	public void resetObject(SuperObject so, int i) {
-		so.worldX = (int) (game.getPlaying().ball.x + ((i + 9) * 32 * 100) + 150);
+//		so.worldX = (int) (game.getPlaying().ball.x + (i * 1500));
+		so.worldX = (int) (game.getPlaying().ball.x + ((i + 9) * 16 * 100));
 		so.initBounds(so.worldX, game.GAME_HEIGHT - game.tileSize);
 		so.powerCount = 0;
 		so.fase = "diam";
