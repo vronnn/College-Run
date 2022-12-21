@@ -1,9 +1,9 @@
 # College Run
-## Description
-A simple 2D game made by :
+A Java based 2D game made by :
 - Muhammad Zhafran        (5025211100)
 - Mohammad Zhafran Dzaky  (5025211142)
 
+## Description
 This game has a story about a college student who went to college and then meet many obstacles on the way.
 The gameplay is about a Ball(as College Student) that got throwed as powerful as possible and then made an arc of parabolic movement in the air.
 The Ball bounce when it touch the ground and then continue the movement with less speed as before.
