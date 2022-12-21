@@ -1,7 +1,8 @@
 # College Run
 A Java based 2D game made by :
 - Muhammad Zhafran        (5025211100)
-- Mohammad Zhafran Dzaky  (5025211142)
+- Mohammad Zhafran Dzaky  (5025211142)  
+for our Object Oriented Programming class's final project
 
 ## Description
 This game has a story about a college student who went to college and then meet many obstacles on the way.
