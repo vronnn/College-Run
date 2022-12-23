@@ -20,7 +20,7 @@ public class Map {
 		
 		this.game = game;
 		
-		tile = new Tile[36];
+		tile = new Tile[25];
 		mapTileNum = new int[game.maxWorldCol][game.maxWorldRow];
 		
 		getTileImage();
@@ -48,6 +48,15 @@ public class Map {
 			
 			tile[5] = new Tile();
 			tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tiles/land.png"));
+			
+			tile[6] = new Tile();
+			tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tiles/end_land.png"));
+			
+			tile[7] = new Tile();
+			tile[7].image = ImageIO.read(getClass().getResourceAsStream("/tiles/finish_line.png"));
+			
+			tile[8] = new Tile();
+			tile[8].image = ImageIO.read(getClass().getResourceAsStream("/tiles/end_area.png"));
 			
 			tile[13] = new Tile();
 			tile[13].image = ImageIO.read(getClass().getResourceAsStream("/tiles/cloud1.png"));
@@ -84,21 +93,6 @@ public class Map {
 			
 			tile[24] = new Tile();
 			tile[24].image = ImageIO.read(getClass().getResourceAsStream("/tiles/cloud12.png"));
-			
-			tile[30] = new Tile();
-			tile[30].image = ImageIO.read(getClass().getResourceAsStream("/tiles/fin_land.png"));
-			
-			tile[32] = new Tile();
-			tile[32].image = ImageIO.read(getClass().getResourceAsStream("/tiles/prefin2.png"));
-			
-			tile[33] = new Tile();
-			tile[33].image = ImageIO.read(getClass().getResourceAsStream("/tiles/prefin1.png"));
-			
-			tile[34] = new Tile();
-			tile[34].image = ImageIO.read(getClass().getResourceAsStream("/tiles/finish_line.png"));
-			
-			tile[35] = new Tile();
-			tile[35].image = ImageIO.read(getClass().getResourceAsStream("/tiles/finish_line2.png"));
 			
 		}catch(IOException e){
 			e.printStackTrace();

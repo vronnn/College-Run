@@ -14,7 +14,6 @@ import static utilz.Constants.SpriteImg.Books.*;
 public class Book extends SuperObject{
 	
 	public int x,y;
-	public int xb,yb;
 	public Rectangle bounds;
 	public int powerCount = 0;
 	
@@ -23,8 +22,6 @@ public class Book extends SuperObject{
 		this.bounds = new Rectangle(x - 10, yPos - BOOK_HEIGHT + 5, BOOK_WIDTH + 10, BOOK_HEIGHT - 5);
 		this.x = x;
 		this.y = yPos - BOOK_HEIGHT + 5;
-		this.xb = x;
-		this.yb = y;
 	}
 	
 	@Override

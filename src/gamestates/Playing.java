@@ -13,6 +13,7 @@ import main.Game;
 import object.SuperObject;
 import tile.Map;
 import ui.DrawScore;
+import ui.Ending;
 import ui.Fonts;
 import ui.GameFinishedOverlay;
 import ui.GameOverOverlay;
@@ -29,17 +30,20 @@ public class Playing extends State implements Statemethods{
 	public GameFinishedOverlay gameFinishedOverlay;
 	public AssetSetter aSetter = new AssetSetter(game);
 	public SuperObject[] obj = new SuperObject[10];
+	
 	public LaunchButton launchButton;
 	public PowerBar powerBar;
 	public PowerUp powerUp;
 	public Fonts fonts;
 	public DrawScore drawScore;
+	public Ending ending;
+	
 	public long timePressed;
 	public int playState = 0;
 	public boolean gameOver;
 	public boolean gameFinished;
 	public boolean setCam;
-	public int finishDistance = 37800;
+	public int finishDistance = 37375;
 	
 	public Playing(Game game) {
 		super(game);
@@ -58,6 +62,7 @@ public class Playing extends State implements Statemethods{
 		drawScore = new DrawScore(this);
 		gameOverOverlay = new GameOverOverlay(game);
 		gameFinishedOverlay = new GameFinishedOverlay(game);
+		ending = new Ending(this);
 	}
 
 	@Override
@@ -111,6 +116,7 @@ public class Playing extends State implements Statemethods{
 		ball.draw(g2);
 		g2.translate(-cam.getX(), -cam.getY());
 		powerUp.draw(g);
+		ending.draw(g);
 		
 		if(gameOver) {
 			gameOverOverlay.draw(g);
@@ -221,11 +227,12 @@ public class Playing extends State implements Statemethods{
 		else {
 			switch (e.getKeyCode()) {		
 			case KeyEvent.VK_SPACE: {
-				if(playState == 1 && powerUp.index != 0) {
+				if(playState == 1) {
 					game.startTime += game.timeElapsed;
 					game.timeElapsed = 1000;
 					ball.initSpeedX += (float)(((game.getPlaying().ball.speed) * Math.cos(Math.toRadians(45))));
 					ball.initSpeedY += (float)(-(game.getPlaying().ball.speed) * (float)Math.sin(Math.toRadians(45)));
+					ball.counterLimit--;
 					powerUp.update();
 				}
 				break;

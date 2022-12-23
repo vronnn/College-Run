@@ -54,6 +54,7 @@ public class Bus extends SuperObject{
 				playing.ball.initSpeedX += 5;
 				playing.ball.initSpeedY -= 5;
 				playing.ball.fase = "hit";
+				playing.ball.counterLimit--;
 				fase = "hit";
 				powerCount++;
 			}
@@ -77,6 +78,11 @@ public class Bus extends SuperObject{
 			drawed = true;
 		}
 		
+		if(hit && worldX - BUS_WIDTH > game.getPlaying().ball.x + (21*game.tileSize)) {
+			drawed = true;
+			hit = false;
+		}
+		
 		leftAnimation();
 		
 		if(isIn(game.getPlaying().ball)) {;
@@ -88,7 +94,6 @@ public class Bus extends SuperObject{
 	
 	@Override
 	public void draw(Graphics2D g2, Game game) {
-		//System.out.println("gambar bus");
 		int screenX = (int) (worldX - game.getPlaying().ball.x + game.getPlaying().ball.screenX);
 		int screenY = game.GAME_HEIGHT - 45 - BUS_HEIGHT;
 		
@@ -96,9 +101,7 @@ public class Bus extends SuperObject{
 				worldX - BUS_WIDTH < game.getPlaying().ball.x + (21*game.tileSize)) {
 			switch (fase){
 			case "diam": {
-				System.out.println("xb : " + xb + " screenX : " + screenX);
 				g2.drawImage(img1, screenX, screenY, BUS_WIDTH, BUS_HEIGHT, null);
-				//g2.drawRect(screenX, screenY, BUS_WIDTH, BUS_HEIGHT);
 				break;
 			}
 			case "hit": {
