@@ -16,7 +16,7 @@ public class Camera {
 	}
 	
 	public void update() {
-		if(ball.x < 37000) {
+		if(ball.x < 36550) {
 			if(ball.screenX != 3 * game.tileSize) {
 				x -= (ball.initSpeedX + 2);
 				ball.screenX -= 2;
